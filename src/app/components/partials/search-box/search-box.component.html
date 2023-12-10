@@ -1,0 +1,16 @@
+<div class="w-max mx-auto px-4 md:px-0 mt-4 md:mt-12">
+  <div class="join">
+    <input
+      class="input input-bordered join-item md:w-72 focus:outline-none focus:border-secondary rounded-l-3xl"
+      placeholder="Search food..."
+      (keydown.enter)="getSearchValue(searchFood.value)"
+      #searchFood
+    />
+    <button
+      class="btn join-item rounded-r-full btn-secondary"
+      (click)="getSearchValue(searchFood.value)"
+    >
+      Search
+    </button>
+  </div>
+</div>

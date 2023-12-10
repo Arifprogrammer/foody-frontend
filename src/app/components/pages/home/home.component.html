@@ -1,0 +1,89 @@
+<search-box />
+<tags />
+<div
+  class="my-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-10 md:gap-6 my-12"
+  *ngIf="foods.length && !loading"
+>
+  <div
+    class="card card-compact w-full bg-accent shadow-xl"
+    *ngFor="let food of foods"
+  >
+    <figure>
+      <img
+        [src]="food.imageUrl"
+        [alt]="food.name"
+        class="w-full object-cover"
+      />
+    </figure>
+    <div class="card-body">
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="card-title">{{ food.name }}</h2>
+
+        <div>
+          <p
+            *ngIf="food.favorite && user.token"
+            class="cursor-pointer"
+            (click)="handleFavorite(food.id, food.favorite)"
+          >
+            ❤️
+          </p>
+          <p
+            *ngIf="!food.favorite && user.token"
+            class="cursor-pointer"
+            (click)="handleFavorite(food.id, food.favorite)"
+          >
+            🤍
+          </p>
+        </div>
+        <!-- <ng-template #favourite (click)="handleFavorite(food.favorite)"
+          >🤍</ng-template
+        > -->
+      </div>
+      <div class="flex justify-between items-center gap-2">
+        <div class="flex gap-2 flex-wrap">
+          <span
+            class="bg-emerald-200 px-2 rounded-md"
+            *ngFor="let origin of food.origins"
+            >{{ origin }}</span
+          >
+        </div>
+        <p class="text-end w-16">🕗 {{ food.cookTime }}</p>
+      </div>
+      <p class="text-lg font-semibold text-neutral">
+        {{ food.price | currency }}
+      </p>
+      <div class="card-actions justify-end">
+        <button
+          class="btn bg-white min-h-0 h-6"
+          [routerLink]="['/food', food.id]"
+        >
+          See Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="text-center">
+  <error-text
+    *ngIf="!foods.length && !loading"
+    errorText="Sorry, we have no food with this name."
+    class="text-xl text-red-600 font-semibold my-8"
+  ></error-text>
+  <button
+    class="btn bg-primary text-white min-h-0 h-8 hover:bg-neutral mb-6 md:mb-0"
+    *ngIf="seeAll && !loading"
+    routerLink=""
+  >
+    See All
+  </button>
+</div>
+<!-- <div
+  class="min-h-[calc(100vh-370px)] md:min-h-[calc(100vh-250px)] flex items-center justify-center test"
+  *ngIf="loading"
+>
+  <span class="loading loading-bars loading-lg text-accent"></span>
+</div> -->
+<loader
+  *ngIf="loading"
+  class="min-h-[calc(100vh-370px)] md:min-h-[calc(100vh-250px)] flex items-center justify-center"
+/>

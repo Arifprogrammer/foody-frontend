@@ -1,0 +1,106 @@
+<custom-title
+  title="Cart Page"
+  class="w-fit mt-2 mb-4 md:my-10 text-3xl font-semibold text-neutral pb-3 border-b-2 border-b-neutral"
+/>
+<error-text
+  *ngIf="!cart.items.length"
+  errorText="You have not added any item yet."
+  class="text-xl text-red-600 font-semibold my-8 text-center"
+/>
+<!-- *add-item btn start -->
+<div class="text-center">
+  <button
+    class="btn bg-primary text-white min-h-0 h-8 hover:bg-neutral"
+    *ngIf="!cart.items.length"
+    routerLink=""
+  >
+    Add Item
+  </button>
+</div>
+<!-- *add-item btn end -->
+<ng-container *ngIf="cart.items.length">
+  <div class="my-container flex flex-col md:flex-row gap-16 mb-10">
+    <div class="overflow-x-auto basis-3/4">
+      <table class="table">
+        <!-- head -->
+        <thead class="border-b-2 border-b-secondary">
+          <tr class="text-neutral text-base">
+            <th>No.</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Details</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody class="border-b-2 border-b-secondary text-base">
+          <!-- row 1 -->
+          <tr
+            *ngFor="let item of cart.items; let i = index"
+            class="border-b-[1px] border-b-slate-300"
+          >
+            <td class="pl-6">{{ i + 1 }}</td>
+            <td class="py-10">
+              <div class="avatar">
+                <div class="mask mask-squircle w-12 h-12">
+                  <img [src]="item.food.imageUrl" [alt]="item.food.name" />
+                </div>
+              </div>
+            </td>
+            <td>
+              {{ item.food.name }}
+            </td>
+            <td class="pl-8">
+              <select
+                [value]="item.quantity"
+                #selectQuantity
+                (change)="changeQuantity(item.food.id, selectQuantity.value)"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </td>
+            <td>{{ item.price | currency }}</td>
+            <td>
+              <button
+                class="btn btn-xs bg-gray-200 font-semibold"
+                [routerLink]="['/food', item.food.id]"
+              >
+                details
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn btn-xs bg-gray-200 text-red-500 font-semibold"
+                (click)="removerCart(item.food.id)"
+              >
+                remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="basis-1/4 flex flex-col justify-center items-center gap-y-4 p-6 min-h-[150px] md:min-h-0 border-2 border-secondary rounded-lg"
+    >
+      <p class="text-xl text-neutral font-semibold">
+        Count: {{ cart.totalCount }}
+      </p>
+      <p class="text-xl text-neutral font-semibold">
+        Price: {{ cart.totalPrice | currency }}
+      </p>
+
+      <button
+        class="btn bg-red-400 rounded-3xl text-white w-full"
+        routerLink="/checkout"
+      >
+        Proceed to Pay
+      </button>
+    </div>
+  </div>
+</ng-container>

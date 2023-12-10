@@ -1,0 +1,14 @@
+<div
+  *ngIf="tags"
+  class="mx-auto flex flex-wrap justify-center gap-3 mt-6 px-4 md:px-0"
+>
+  <button
+    *ngFor="let tag of tags"
+    class="border-[1px] border-secondary px-3 rounded-md hover:bg-accent transition duration-300"
+    [routerLink]="tag.name === 'All' ? '' : ['/tags', tag.name]"
+    [routerLinkActive]="'bg-accent'"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    {{ tag.name }}({{ tag.count }})
+  </button>
+</div>

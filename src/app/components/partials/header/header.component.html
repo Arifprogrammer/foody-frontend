@@ -1,0 +1,32 @@
+<div class="navbar md:bg-base-300 text-neutral flex-col md:flex-row">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-2xl font-serif font-bold italic" routerLink=""
+      >Foody
+    </a>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1 text-base font-semibold">
+      <!-- todo: add Home button -->
+      <li><a routerLink="">Home</a></li>
+      <li *ngIf="!isAuth"><a routerLink="/login">Login</a></li>
+      <li *ngIf="isAuth">
+        <details>
+          <summary>{{ user.name }}</summary>
+          <ul class="p-2 bg-base-300 rounded-t-none z-10 top-5">
+            <li><a>Profile</a></li>
+            <li><a>Orders</a></li>
+            <li (click)="logOut()"><a>Logout</a></li>
+          </ul>
+        </details>
+      </li>
+      <li routerLink="/cart-page">
+        <a
+          >Cart
+          <span class="badge badge-accent" *ngIf="countItem && isAuth">{{
+            countItem
+          }}</span></a
+        >
+      </li>
+    </ul>
+  </div>
+</div>

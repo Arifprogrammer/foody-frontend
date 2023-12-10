@@ -1,0 +1,92 @@
+<div class="md:my-16 px-4 md:px-0 space-y-5 font-semibold pb-4 mb:pb-0">
+  <custom-title
+    title="Order Form"
+    class="w-fit mt-2 mb-4 md:my-10 text-3xl font-semibold text-neutral pb-3 border-b-2 border-b-neutral"
+  />
+  <!-- *------user details------- -->
+  <div
+    class="border-[1px] border-secondary rounded-lg w-full max-w-md mx-auto p-6"
+  >
+    <div class="mb-3">
+      <label for="name" class="block text-neutral"> Name: </label>
+      <input
+        type="text"
+        placeholder="Type here"
+        [value]="userName"
+        readonly
+        class="input border-b-2 border-b-secondary w-full max-w-xs focus:outline-none text-gray-400 min-h-0 h-8 p-0"
+      />
+    </div>
+    <div>
+      <label for="name" class="block text-neutral"> Email: </label>
+      <input
+        type="text"
+        placeholder="Type here"
+        [value]="userEmail"
+        readonly
+        class="input border-b-2 border-b-secondary w-full max-w-xs focus:outline-none text-gray-400 min-h-0 h-8 p-0"
+      />
+    </div>
+  </div>
+  <div
+    class="border-[1px] border-secondary rounded-lg w-full max-w-md mx-auto p-6 overflow-x-auto"
+  >
+    <h1 class="text-neutral text-lg mb-2">Order Items</h1>
+    <!-- *------items------- -->
+    <table class="table">
+      <tbody class="text-sm">
+        <!-- row 1 -->
+        <tr
+          *ngFor="let item of order.items"
+          class="border-b-[1px] border-b-slate-300"
+        >
+          <td class="py-3 px-0">
+            <div class="avatar">
+              <div
+                class="mask mask-squircle w-12 h-12"
+                [routerLink]="['/food', item.food.id]"
+              >
+                <img [src]="item.food.imageUrl" [alt]="item.food.name" />
+              </div>
+            </div>
+          </td>
+          <td>
+            {{ item.food.name }}
+          </td>
+          <td>{{ item.price | currency }}</td>
+          <td class="pl-8">
+            <p>{{ item.quantity }}</p>
+          </td>
+          <td>{{ item.price | currency }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-primary">Total:</td>
+          <td class="text-primary">{{ order.totalPrice | currency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    class="border-[1px] border-l-8 border-secondary rounded-lg w-full max-w-md mx-auto px-3 py-1 text-xs bg-blue-100"
+  >
+    <p>**Only support Cash on Delivery**</p>
+  </div>
+  <div class="w-full max-w-md mx-auto">
+    <button
+      class="btn bg-red-400 rounded-3xl text-white w-full"
+      routerLink="/checkout"
+      (click)="createOrder()"
+      [disabled]="isAdmin || disabled"
+    >
+      {{ disabled ? "Completed" : "Complete Payment" }}
+    </button>
+    <error-text
+      *ngIf="isAdmin"
+      errorText="Please login as 'User'"
+      class="text-base text-red-600 font-semibold my-3 text-center"
+    />
+  </div>
+</div>
